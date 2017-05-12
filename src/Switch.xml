@@ -4,7 +4,8 @@
     <description>Toggle a boolean attribute</description>
     <icon>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAANCAYAAACgu+4kAAAAAXNSR0IArs4c6QAAAWJJREFUKBWVUz1Pg1AU5eGDAiVh8CMu/gBHN8PmL+gE1qUbLmqKDvY36NTEaKLdZOhHWFkaZtLdwd/g18DQoUkBzyWFGIKx3gTuu/edc++5PB6bTCZqHMc3giC0syzbhv/TGGMfAI0Mw+jxxWJxqyjKKRL3eDZRpFNUAFBALJCvGDW6AJfxRqPRBuDBsqwrAvm+v5em6VGFUBuCd8xVVZ1jsUsIdNsIgmCLuq7ivHsRk5KfirCeszAMu+jYx+YMJAPJ/ZyNVw2hzBFGFEU3Hy6KohMUoY+4U5AIUKzJV+wd5JFpmsNK/v9hXnowGJQK1ikBRbkCx3GGzPO8bpIk/Tpi3QjIvWLUGPhDPC6XJOlSluWcj41y7l8KvqDAgW3byXg8pvldrmlak4hr2mer1UoIi5/vDa7JptPpHU7gnJJ1kilf2ErhM+IvrM9wEk9c1/Xr5XJJEta9Cx00orvwyDnvfQOvxafOwLorQQAAAABJRU5ErkJggg==
-    </icon>    <properties>
+    </icon>
+    <properties>
         <property key="booleanAttribute" type="attribute">
             <caption>Boolean attribute</caption>
             <category>Data source</category>
@@ -21,6 +22,39 @@
                 <enumerationValue key="default">Always</enumerationValue>
                 <enumerationValue key="never">Never</enumerationValue>
             </enumerationValues>
+        </property>
+        <property key="label" type="string" required="false" defaultValue="">
+            <caption>Label</caption>
+            <category>Display</category>
+            <description/>
+        </property>
+        <property key="deviceStyle" type="enumeration" defaultValue="auto">
+            <caption>Appearance</caption>
+            <category>Display</category>
+            <description>The general appearance of the switch</description>
+            <enumerationValues>
+                <enumerationValue key="auto">Auto detect</enumerationValue>
+                <enumerationValue key="android">Android</enumerationValue>
+                <enumerationValue key="iOS">iOS</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="bootstrapStyle" type="enumeration" defaultValue="default">
+            <caption>Style</caption>
+            <category>Display</category>
+            <description>The color of the switch using bootstrap classes</description>
+            <enumerationValues>
+                <enumerationValue key="default">Widget default</enumerationValue>
+                <enumerationValue key="primary">Primary</enumerationValue>
+                <enumerationValue key="success">Success</enumerationValue>
+                <enumerationValue key="info">Info</enumerationValue>
+                <enumerationValue key="warning">Warning</enumerationValue>
+                <enumerationValue key="danger">Danger</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="labelWidth" type="integer" defaultValue="9">
+            <caption>Label width (weight)</caption>
+            <category>Display</category>
+            <description>How much of the total row width (12) the label should occupy. Should not be greater than 11.</description>
         </property>
         <property key="onChangeMicroflow" type="microflow" required="false">
             <caption>On change microflow</caption>

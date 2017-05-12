@@ -1,13 +1,14 @@
-import { DOM, SFC, createElement } from "react";
+import { DOM, SFC } from "react";
 import * as classNames from "classnames";
 
-import { Alert, AlertProps } from "./Alert";
+import { BootstrapStyle, DeviceStyle } from "./SwitchContainer";
 
 import "../ui/Switch.sass";
 
 export interface SwitchProps {
-    alertMessage?: string;
+    bootstrapStyle: BootstrapStyle;
     className?: string;
+    deviceStyle?: DeviceStyle;
     isChecked: boolean;
     onClick: () => void;
     status: SwitchStatus;
@@ -16,22 +17,40 @@ export interface SwitchProps {
 
 export type SwitchStatus = "enabled" | "disabled" | "no-context";
 
-export const Switch: SFC<SwitchProps> = ({ alertMessage, className, isChecked, onClick, status, style }) =>
-    DOM.div({ className: classNames("widget-switch", className, { "has-error": !!alertMessage }), style },
+export const Switch: SFC<SwitchProps> = (props) =>
+    DOM.div(
+        {
+            className: classNames("widget-switch", props.className, props.deviceStyle),
+            style: props.style
+        },
         DOM.input({
-            checked: isChecked,
-            className: classNames("widget-switch-checkbox", { enabled: status === "enabled" }),
+            checked: props.isChecked,
+            className: classNames("widget-switch-checkbox", { enabled: props.status === "enabled" }),
             readOnly: true,
             type: "checkbox"
         }),
-        DOM.div({
-            className: classNames("widget-switch-btn", {
-                "enabled": status === "enabled",
-                "no-switch": status === "no-context"
-            }),
-            onClick: status === "enabled" ? onClick : undefined
-        }),
-        createElement(Alert, { message: alertMessage } as AlertProps)
+        DOM.div(
+            {
+                className: classNames(`widget-switch-btn-wrapper widget-switch-btn-wrapper-${props.bootstrapStyle}`, {
+                    "checked": props.isChecked,
+                    "disabled": props.status === "disabled",
+                    "no-switch": props.status === "no-context",
+                    "un-checked": !props.isChecked
+                }),
+                onClick: props.status === "enabled" ? props.onClick : undefined
+            },
+            DOM.small({
+                className: classNames("widget-switch-btn", {
+                    left: !props.isChecked,
+                    right: props.isChecked
+                })
+            })
+        )
     );
+
+Switch.defaultProps = {
+    bootstrapStyle: "default",
+    deviceStyle: "auto"
+};
 
 Switch.displayName = "Switch";
