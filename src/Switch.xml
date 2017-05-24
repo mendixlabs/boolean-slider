@@ -16,10 +16,10 @@
         </property>
         <property key="editable" type="enumeration" defaultValue="default">
             <caption>Editable</caption>
-            <category>Display</category>
+            <category>Data source</category>
             <description/>
             <enumerationValues>
-                <enumerationValue key="default">Always</enumerationValue>
+                <enumerationValue key="default">Default</enumerationValue>
                 <enumerationValue key="never">Never</enumerationValue>
             </enumerationValues>
         </property>
@@ -27,6 +27,11 @@
             <caption>Label</caption>
             <category>Display</category>
             <description/>
+        </property>
+        <property key="labelWidth" type="integer" defaultValue="9">
+            <caption>Label width (weight)</caption>
+            <category>Display</category>
+            <description>How much of the total row width (12) the label should occupy. Should not be greater than 11.</description>
         </property>
         <property key="deviceStyle" type="enumeration" defaultValue="auto">
             <caption>Appearance</caption>
@@ -38,27 +43,23 @@
                 <enumerationValue key="iOS">iOS</enumerationValue>
             </enumerationValues>
         </property>
-        <property key="bootstrapStyle" type="enumeration" defaultValue="default">
-            <caption>Style</caption>
+        <property key="colorStyle" type="enumeration" defaultValue="default">
+            <caption>Switch style</caption>
             <category>Display</category>
-            <description>The color of the switch using bootstrap classes</description>
+            <description>The color style of the switch</description>
             <enumerationValues>
                 <enumerationValue key="default">Widget default</enumerationValue>
                 <enumerationValue key="primary">Primary</enumerationValue>
+                <enumerationValue key="inverse">Inverse</enumerationValue>
                 <enumerationValue key="success">Success</enumerationValue>
                 <enumerationValue key="info">Info</enumerationValue>
                 <enumerationValue key="warning">Warning</enumerationValue>
                 <enumerationValue key="danger">Danger</enumerationValue>
             </enumerationValues>
         </property>
-        <property key="labelWidth" type="integer" defaultValue="9">
-            <caption>Label width (weight)</caption>
-            <category>Display</category>
-            <description>How much of the total row width (12) the label should occupy. Should not be greater than 11.</description>
-        </property>
         <property key="onChangeMicroflow" type="microflow" required="false">
             <caption>On change microflow</caption>
-            <category>Behavior</category>
+            <category>Events</category>
             <description>Microflow to trigger when button is toggled</description>
             <returnType type="Void"/>
         </property>

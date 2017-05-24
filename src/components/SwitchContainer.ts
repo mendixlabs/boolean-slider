@@ -7,11 +7,12 @@ interface WrapperProps {
     class?: string;
     mxObject?: mendix.lib.MxObject;
     style?: string;
+    readOnly?: boolean;
 }
 
 interface SwitchContainerProps extends WrapperProps {
     booleanAttribute: string;
-    bootstrapStyle: BootstrapStyle;
+    colorStyle: ColorStyle;
     deviceStyle: DeviceStyle;
     editable: "default" | "never";
     label: string;
@@ -23,7 +24,7 @@ interface SwitchContainerState {
     isChecked?: boolean;
 }
 
-type BootstrapStyle = "default" | "primary" | "info" | "warning" | "success" | "danger";
+type ColorStyle = "default" | "primary" | "inverse" | "info" | "warning" | "success" | "danger";
 type DeviceStyle = "auto" | "android" | "iOS";
 
 class SwitchContainer extends Component<SwitchContainerProps, SwitchContainerState> {
@@ -43,7 +44,7 @@ class SwitchContainer extends Component<SwitchContainerProps, SwitchContainerSta
         const maxLabelWidth = 11;
         if (this.props.label.trim()) {
             return createElement(Label, {
-                className: this.props.class,
+                className: `${this.props.deviceStyle} ${this.props.class}`,
                 label: this.props.label,
                 style: SwitchContainer.parseStyle(this.props.style),
                 weight: this.props.labelWidth > maxLabelWidth ? maxLabelWidth : this.props.labelWidth
@@ -63,25 +64,38 @@ class SwitchContainer extends Component<SwitchContainerProps, SwitchContainerSta
     }
 
     private renderSwitch(hasLabel = false): SFCElement<SwitchProps> {
-        const { editable, mxObject } = this.props;
-        const enabled = editable === "default" && (mxObject && !mxObject.isReadonlyAttr(this.props.booleanAttribute));
-        const status: SwitchStatus = mxObject
-            ? enabled ? "enabled" : "disabled"
-            : "no-context";
+        const { class: className, colorStyle, deviceStyle, style } = this.props;
 
         return createElement(Switch, {
-            bootstrapStyle: this.props.bootstrapStyle,
-            className: !hasLabel ? this.props.class : undefined,
-            deviceStyle: this.props.deviceStyle,
+            className: !hasLabel ? className : undefined,
+            colorStyle,
+            deviceStyle,
             isChecked: this.state.isChecked,
             onClick: this.handleToggle,
-            status,
-            style: !hasLabel ? SwitchContainer.parseStyle(this.props.style) : undefined
+            status: this.getSwitchStatus(!this.isReadOnly()),
+            style: !hasLabel ? SwitchContainer.parseStyle(style) : undefined
         } as SwitchProps);
     }
 
     private getAttributeValue(attribute: string, mxObject?: mendix.lib.MxObject): boolean {
         return !!mxObject && mxObject.get(attribute) as boolean;
+    }
+
+    private isReadOnly() {
+        const { booleanAttribute, editable, mxObject, readOnly } = this.props;
+        if (editable === "default" && mxObject) {
+            return readOnly || mxObject.isReadonlyAttr(booleanAttribute);
+        }
+
+        return true;
+    }
+
+    private getSwitchStatus(enabled: boolean): SwitchStatus {
+        if (this.props.mxObject) {
+            return enabled ? "enabled" : "disabled";
+        }
+
+        return "no-context";
     }
 
     private handleToggle() {
@@ -144,11 +158,12 @@ class SwitchContainer extends Component<SwitchContainerProps, SwitchContainerSta
                 return styleObject;
             }, {});
         } catch (error) {
-            console.log("Failed to parse style", style, error);
+            // tslint:disable-next-line no-console
+            window.console.error("Failed to parse style", style, error);
         }
 
         return {};
     }
 }
 
-export { BootstrapStyle, DeviceStyle, SwitchContainer as default, SwitchContainerProps };
+export { ColorStyle, DeviceStyle, SwitchContainer as default, SwitchContainerProps };
