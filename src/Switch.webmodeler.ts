@@ -17,9 +17,18 @@ export class preview extends Component<SwitchContainerProps, {}> {
                 style: SwitchContainer.parseStyle(this.props.style),
                 weight: this.props.labelWidth > maxLabelWidth ? maxLabelWidth : this.props.labelWidth
             }, this.renderSwitch(true));
+        } else {
+            if (this.props.label !== "") {
+                return createElement(Label, {
+                    className: classNames(this.props.class, this.props.deviceStyle),
+                    label: "Label",
+                    style: SwitchContainer.parseStyle(this.props.style),
+                    weight: this.props.labelWidth > maxLabelWidth ? maxLabelWidth : this.props.labelWidth
+                }, this.renderSwitch());
+            } else {
+                return this.renderSwitch();
+            }
         }
-
-        return this.renderSwitch();
     }
 
     private renderSwitch(hasLabel = false) {
